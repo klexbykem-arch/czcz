@@ -10,12 +10,12 @@
   --color-ink-faint: #94a3b8;
   --color-border: #e2e8f0;
 
-  --color-accent: #0d9488;
-  --color-accent-dark: #0f766e;
-  --color-accent-light: #ccfbf1;
+  --color-accent: #2563eb;
+  --color-accent-dark: #1d4ed8;
+  --color-accent-light: #dbeafe;
 
-  --color-dark: #0f172a;
-  --color-dark-2: #114e4a;
+  --color-dark: #0a0f1f;
+  --color-dark-2: #1e3a8a;
 
   --radius: 14px;
   --radius-sm: 8px;
@@ -80,7 +80,7 @@ p { margin: 0 0 1em; }
 .btn-primary {
   background: var(--color-accent);
   color: #fff;
-  box-shadow: 0 8px 20px -6px rgba(13, 148, 136, .55);
+  box-shadow: 0 8px 20px -6px rgba(37, 99, 235, .55);
 }
 .btn-primary:hover { background: var(--color-accent-dark); }
 .btn-ghost {
@@ -168,7 +168,7 @@ p { margin: 0 0 1em; }
 /* ---------- Hero ---------- */
 .hero {
   background:
-    radial-gradient(circle at 15% 20%, rgba(13,148,136,.35), transparent 45%),
+    radial-gradient(circle at 15% 20%, rgba(37,99,235,.35), transparent 45%),
     linear-gradient(160deg, var(--color-dark) 0%, var(--color-dark-2) 100%);
   color: #fff;
   padding: 100px 0 90px;
@@ -205,39 +205,20 @@ p { margin: 0 0 1em; }
 }
 
 .hero-media { text-align: center; }
-.avatar-placeholder {
+.avatar-photo {
   width: 200px;
   height: 200px;
-  margin: 0 auto 14px;
+  margin: 0 auto;
   border-radius: 50%;
-  background: rgba(255,255,255,.08);
-  border: 2px dashed rgba(255,255,255,.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-head);
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: #fff;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,.25);
+  box-shadow: 0 12px 32px -8px rgba(0,0,0,.5);
 }
 .avatar-small {
   width: 160px;
   height: 160px;
   border-color: var(--color-border);
-  background: var(--color-bg-alt);
-  color: var(--color-ink-soft);
-}
-.placeholder-note {
-  font-size: .82rem;
-  color: rgba(255,255,255,.65);
-  max-width: 30ch;
-  margin: 0 auto;
-}
-.placeholder-note code {
-  background: rgba(255,255,255,.12);
-  padding: .1em .4em;
-  border-radius: 4px;
-  font-size: .82em;
+  box-shadow: var(--shadow);
 }
 
 /* ---------- Sections ---------- */
