@@ -33,7 +33,6 @@ main{max-width:none;padding-bottom:90px}
 .tools{margin:20px 0}
 .grid{grid-auto-flow:dense}                 /* back-fill empty cells */
 #projects,#services{grid-column:span 6}     /* no lone half-width card on its page */
-.website-marquee-track{grid-template-columns:repeat(3,minmax(0,1fr))}
 #services .ol{display:grid;grid-template-columns:1fr 1fr;column-gap:28px}
 #services .ol li:nth-child(2){border-top:0}
 /* credentials list fills its card instead of leaving a gap */
@@ -46,7 +45,6 @@ main{max-width:none;padding-bottom:90px}
 @media(max-width:900px){
   #services .ol{grid-template-columns:1fr}
   #services .ol li:nth-child(2){border-top:1px solid var(--line)}
-  .website-marquee-track{grid-template-columns:repeat(2,minmax(0,1fr))}
   .acc{bottom:16px}
 }
 </style>
