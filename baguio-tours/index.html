@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Baguio Tours — Van Tours from Manila</title>
+<title>Bulakenyo Travel and Tours — Baguio Tour Packages</title>
 <meta name="description" content="Baguio tour packages from Manila: Day Tour P1,499, 2D1N P2,299, 3D2N P3,199. Joiners, barkada, family and exclusive tours. Ilocos, La Union, Sagada, Buscalan, Baler and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +28,8 @@
   /* ---------- Header ---------- */
   header{position:absolute;inset:0 0 auto 0;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:24px;padding:28px var(--pad)}
   header.dark{color:var(--black)}
+  .brand{display:inline-block;background:var(--white);padding:8px 12px;border-radius:0 18px 0 18px;box-shadow:0 6px 24px rgba(0,0,0,.25);justify-self:start}
+  .brand img{width:clamp(130px,13vw,190px);height:auto}
   .logo{font-family:var(--display);font-size:28px;letter-spacing:.02em;text-transform:uppercase}
   .logo sup{font-family:var(--body);font-size:11px;vertical-align:super;margin-left:2px}
   nav.links{display:grid;grid-template-columns:repeat(2,auto);gap:4px 64px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
@@ -59,6 +61,8 @@
   .hero .bg img{width:100%;height:100%;object-fit:cover}
   .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 55%,rgba(0,0,0,.6) 100%)}
   .hero > *{position:relative;z-index:2}
+  .hero > header{position:absolute;z-index:20}
+  .hero > .bg{position:absolute;z-index:0}
   .hero h1{font-size:clamp(84px,17.5vw,300px);text-align:center;padding:0 12px;margin-bottom:auto;margin-top:clamp(150px,20vh,210px)}
   .hero-bottom{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:32px;padding:0 var(--pad) 0}
   .hero-left{font-size:13px;max-width:250px;padding-bottom:36px;opacity:.92}
@@ -87,6 +91,7 @@
 
   /* ---------- Packages (Popular Destinations layout) ---------- */
   .split{display:grid;grid-template-columns:minmax(280px,.8fr) 1.6fr;gap:clamp(32px,5vw,80px);align-items:stretch}
+  .split > *{min-width:0}
   .split-left{display:flex;flex-direction:column}
   .split-left .btn{margin-top:36px;align-self:flex-start}
   .slider-nav{display:flex;align-items:center;gap:22px;margin-top:auto;padding-top:56px;font-size:14px}
@@ -95,6 +100,22 @@
   .sec.black .circle:hover:not(:disabled){background:var(--white);color:var(--black)}
   .circle:disabled{opacity:.3;cursor:default}
   .track-wrap{overflow:hidden;margin-right:calc(var(--pad)*-1)}
+  .swiper{overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-right:calc(var(--pad)*-1);padding-right:var(--pad);cursor:grab;touch-action:pan-x pan-y}
+  .swiper::-webkit-scrollbar{display:none}
+  .swiper.dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+  .swiper.dragging *{pointer-events:none;user-select:none}
+  .swiper .track{transition:none}
+  .swiper .pcard{scroll-snap-align:start}
+  .swipe-hint{font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-top:14px;display:flex;align-items:center;gap:8px}
+  .select-btn{margin-top:auto;align-self:flex-start;display:inline-flex;gap:10px;align-items:center;background:var(--white);color:var(--black);border:0;font:inherit;font-weight:600;font-size:14px;padding:12px 18px;border-radius:0 14px 0 14px;cursor:pointer;transition:background .2s,color .2s}
+  .select-btn:hover{background:#e6e6e6}
+  .pcard.selected{outline:3px solid var(--black);outline-offset:-3px}
+  .pcard.selected .ph{filter:grayscale(0) brightness(.55)}
+  .pcard.selected .select-btn{background:var(--black);color:var(--white);box-shadow:0 0 0 1px var(--white)}
+  .pcard .check{position:absolute;top:22px;right:22px;width:34px;height:34px;border-radius:50%;background:var(--white);color:var(--black);display:none;place-items:center;font-weight:700}
+  .pcard.selected .check{display:grid}
+  .btn[hidden]{display:none}
+  .pcard > .check.check{position:absolute}
   .track-wrap.scroll{overflow-x:auto;scrollbar-width:thin;padding-bottom:8px}
   .track{display:flex;gap:16px;transition:transform .6s cubic-bezier(.65,0,.25,1)}
   .pcard{flex:0 0 clamp(270px,30vw,380px);height:clamp(460px,52vw,560px);position:relative;overflow:hidden;color:var(--white);display:flex;flex-direction:column;padding:22px}
@@ -217,7 +238,7 @@
 
 <!-- Mobile / burger menu -->
 <div class="mobile-menu" id="menu" aria-hidden="true">
-  <div class="top"><span class="logo">Baguio Tours<sup>®</sup></span><button class="close" id="menuClose" aria-label="Close menu">×</button></div>
+  <div class="top"><span class="logo">Bulakenyo Travel &amp; Tours</span><button class="close" id="menuClose" aria-label="Close menu">×</button></div>
   <ul>
     <li><a href="#packages">Packages</a></li>
     <li><a href="#destinations">Destinations</a></li>
@@ -232,7 +253,7 @@
 <div class="hero-frame">
   <section class="hero" id="top">
     <header>
-      <a href="#top" class="logo">Baguio Tours<sup>®</sup></a>
+      <a href="#top" class="brand"><img src="logo.webp" alt="Bulakenyo Travel and Tours" width="640" height="397"></a>
       <nav class="links">
         <a href="#packages">Packages</a><a href="#destinations">Destinations</a>
         <a href="#inclusions">Inclusions</a><a href="#places">Places to visit</a>
@@ -319,7 +340,8 @@
       <h2 class="display h2">Popular<br>Destinations</h2>
       <p class="sub">Go further north — or south.</p>
       <p class="muted">From Ilocos sand dunes to Sagada's mountains and Caramoan's islands. Same van, same easy booking.</p>
-      <a href="#contact" class="btn">Ask for a date <span class="arrow">→</span></a>
+      <a href="#contact" class="btn" id="bookSelected" hidden>Book: <span id="selName"></span> <span class="arrow">→</span></a>
+      <a href="#contact" class="btn" id="askDate">Ask for a date <span class="arrow">→</span></a>
       <div class="slider-nav">
         <button class="circle" id="dPrev" aria-label="Previous">←</button>
         <span id="dCount">1/8</span>
@@ -327,8 +349,11 @@
       </div>
     </div>
 
-    <div class="track-wrap">
-      <div class="track" id="dTrack"></div>
+    <div>
+      <div class="swiper" id="dSwiper" aria-label="Destinations — swipe to browse">
+        <div class="track" id="dTrack"></div>
+      </div>
+      <p class="swipe-hint">← Swipe to browse · tap “Select this tour” →</p>
     </div>
   </div>
 </section>
@@ -472,7 +497,7 @@
 </section>
 
 <footer>
-  <span class="logo">Baguio Tours<sup>®</sup></span>
+  <span class="logo">Bulakenyo Travel &amp; Tours</span>
   <span>Call / text 0923 874 1480 · <a href="https://www.facebook.com/jhon.santos.3597" target="_blank" rel="noopener">facebook.com/jhon.santos.3597</a></span>
   <span>© <span id="yr"></span> All rights reserved.</span>
 </footer>
@@ -501,35 +526,55 @@
   ];
   const unsplash = (id,w) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`;
 
-  // ---- Destinations carousel ----
+  // ---- Destinations swiper (native scroll-snap: touch swipe, trackpad, mouse drag, arrows) ----
+  const swiper = document.getElementById('dSwiper');
   const track = document.getElementById('dTrack');
-  track.innerHTML = destinations.map(d => `
-    <article class="pcard">
-      <div class="ph"><img src="${unsplash(d.img,900)}" alt="${d.name}" loading="lazy" onerror="this.remove()"></div>
+  track.innerHTML = destinations.map((d,i) => `
+    <article class="pcard" data-i="${i}">
+      <div class="ph"><img src="${unsplash(d.img,900)}" alt="${d.name}" loading="lazy" draggable="false" onerror="this.remove()"></div>
+      <span class="check" aria-hidden="true">✓</span>
       <div class="pcard-top"><span class="tag">${d.tag}</span></div>
       <h3 class="display">${d.name}</h3>
       <ul class="price-list">${d.rates.map(r=>`<li>${r[0]} <b>₱${r[1]}</b></li>`).join('')}</ul>
       <p>${d.desc}</p>
-      <a href="#contact" class="card-link" data-pkg="${d.name}">View tour <span class="arrow">→</span></a>
+      <button type="button" class="select-btn" data-select="${d.name}">Select this tour <span class="arrow">→</span></button>
     </article>`).join('');
 
-  let di = 0;
   const prev = document.getElementById('dPrev'), next = document.getElementById('dNext'), count = document.getElementById('dCount');
-  function renderSlider(){
-    const card = track.children[0];
-    const step = card.getBoundingClientRect().width + 16;
-    track.style.transform = `translateX(${-di*step}px)`;
-    count.textContent = `${di+1}/${destinations.length}`;
-    prev.disabled = di === 0; next.disabled = di === destinations.length-1;
+  const cards = [...track.children];
+  const step = () => cards[0].getBoundingClientRect().width + 16;
+  const current = () => Math.round(swiper.scrollLeft / step());
+  function updateNav(){
+    const i = Math.min(current(), cards.length-1);
+    const atEnd = swiper.scrollLeft + swiper.clientWidth >= swiper.scrollWidth - 4;
+    count.textContent = `${atEnd ? cards.length : i+1}/${cards.length}`;
+    prev.disabled = swiper.scrollLeft <= 4; next.disabled = atEnd;
   }
-  prev.onclick = () => { if(di>0){di--;renderSlider();} };
-  next.onclick = () => { if(di<destinations.length-1){di++;renderSlider();} };
-  window.addEventListener('resize', renderSlider);
-  // swipe support
-  let sx=null;
-  track.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
-  track.addEventListener('touchend',e=>{ if(sx===null)return; const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40){ dx<0?next.onclick():prev.onclick(); } sx=null; });
-  renderSlider();
+  const goTo = i => swiper.scrollTo({left: Math.max(0,i)*step()});
+  prev.onclick = () => goTo(current()-1);
+  next.onclick = () => goTo(current()+1);
+  swiper.addEventListener('scroll', () => requestAnimationFrame(updateNav), {passive:true});
+  window.addEventListener('resize', updateNav);
+  updateNav();
+
+  // mouse drag on desktop
+  let drag=null;
+  swiper.addEventListener('pointerdown', e => { if(e.pointerType!=='mouse' || e.target.closest('button')) return; drag={x:e.clientX, left:swiper.scrollLeft, moved:false}; });
+  window.addEventListener('pointermove', e => { if(!drag) return; const dx=e.clientX-drag.x; if(Math.abs(dx)>5){drag.moved=true; swiper.classList.add('dragging');} swiper.scrollLeft = drag.left - dx; });
+  window.addEventListener('pointerup', () => { if(!drag) return; const moved=drag.moved; drag=null; swiper.classList.remove('dragging'); if(moved) goTo(current()); });
+
+  // select a tour
+  const bookSel = document.getElementById('bookSelected'), askDate = document.getElementById('askDate');
+  track.addEventListener('click', e => {
+    const b = e.target.closest('[data-select]'); if(!b) return;
+    const card = b.closest('.pcard'), already = card.classList.contains('selected');
+    cards.forEach(c => { c.classList.remove('selected'); c.querySelector('.select-btn').firstChild.textContent = 'Select this tour '; });
+    if(already){ bookSel.hidden = true; askDate.hidden = false; return; }
+    card.classList.add('selected'); b.firstChild.textContent = 'Selected ';
+    document.getElementById('selName').textContent = b.dataset.select;
+    bookSel.hidden = false; askDate.hidden = true;
+    document.getElementById('fPkg').value = b.dataset.select;
+  });
 
   // ---- Places list ----
   document.getElementById('placeList').innerHTML = places.map((p,i)=>
