@@ -349,7 +349,7 @@
     <div class="track-wrap scroll reveal">
       <div class="track">
         <article class="pcard">
-          <div class="ph"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=70" alt="Mountain peaks" onerror="this.remove()"></div>
+          <div class="ph"><img src="images/baguio.webp" alt="Pine forests and mountains of Baguio" data-fb="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=70" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb='';}else{this.remove()}"></div>
           <div class="pcard-top"><span class="tag">3 Days · 2 Nights</span><span class="tag">Best value</span></div>
           <h3 class="display">Baguio<br>3D2N</h3>
           <ul class="price-list"><li>Per head <b>₱3,199</b></li></ul>
@@ -585,10 +585,10 @@
     {name:"Northern Blossom + Baguio", short:"Atok", tag:"Atok, Benguet", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Highland flower farms paired with the best of Baguio.", img:"photo-1500530855697-b586d89ba3ee"},
     {name:"Vigan + Baguio", short:"Vigan", tag:"Ilocos Sur", rates:[["3D2N","3,599"]], desc:"Cobblestone Calle Crisologo and the City of Pines in one trip.", img:"photo-1488646953014-85cb44e25828"},
     {name:"La Union", short:"La Union", tag:"San Juan, LU", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Surf town vibes, sunsets and beach cafés.", img:"photo-1519046904884-53103b34b206"},
-    {name:"Sagada + Banaue + Baguio", short:"Sagada", tag:"Cordillera", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Rice terraces, sea of clouds and mountain caves.", img:"photo-1506905925346-21bda4d32df4"},
-    {name:"Buscalan", short:"Buscalan", tag:"Kalinga", rates:[["2D1N","3,899"],["Buscalan + Sagada 3D2N","4,999"]], desc:"Home of Apo Whang-Od and traditional Kalinga tattoos.", img:"photo-1464822759023-fed622ff2c3b"},
-    {name:"Baler", short:"Baler", tag:"Aurora", rates:[["3D2N","3,299"],["2D1N","2,499"]], desc:"Surf beaches, Dicasalarin Cove and the Millennium Tree.", img:"photo-1476514525535-07fb3b4ae5f1"},
-    {name:"Caramoan + Albay", short:"Caramoan", tag:"Bicol", rates:[["3D2N","5,499"]], desc:"Island hopping in Caramoan and the view of Mayon Volcano.", img:"photo-1501785888041-af3ef285b470"},
+    {name:"Sagada + Banaue + Baguio", short:"Sagada", tag:"Cordillera", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Rice terraces, sea of clouds and mountain caves.", img:"images/sagada.webp"},
+    {name:"Buscalan", short:"Buscalan", tag:"Kalinga", rates:[["2D1N","3,899"],["Buscalan + Sagada 3D2N","4,999"]], desc:"Home of Apo Whang-Od and traditional Kalinga tattoos.", img:"images/buscalan.webp"},
+    {name:"Baler", short:"Baler", tag:"Aurora", rates:[["3D2N","3,299"],["2D1N","2,499"]], desc:"Surf beaches, Dicasalarin Cove and the Millennium Tree.", img:"images/baler.webp"},
+    {name:"Caramoan + Albay", short:"Caramoan", tag:"Bicol", rates:[["3D2N","5,499"]], desc:"Island hopping in Caramoan and the view of Mayon Volcano.", img:"images/caramoan.webp"},
   ];
   const places = [
     ["Lion's Head"],["Baguio Cathedral"],["Botanical Garden"],["Wright Park"],["The Mansion"],["Mines View"],
@@ -597,13 +597,17 @@
     ["Camp John Hay","3D2N"],["PMA","3D2N Exclusive"]
   ];
   const unsplash = (id,w) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`;
+  // local photos live in images/; anything else is a stock-photo placeholder id
+  const imgSrc = (img,w) => img.startsWith('images/') ? img : unsplash(img,w);
+  // if a local photo is missing, fall back to a stock photo, then to the dark placeholder
+  const fallback = id => `onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb='';}else{this.remove()}" data-fb="${id?unsplash(id,1600):''}"`;
 
   // ---- Destinations swiper (native scroll-snap: touch swipe, trackpad, mouse drag, arrows) ----
   const swiper = document.getElementById('dSwiper');
   const track = document.getElementById('dTrack');
   track.innerHTML = destinations.map((d,i) => `
     <article class="pcard" data-i="${i}">
-      <div class="ph"><img src="${unsplash(d.img,900)}" alt="${d.name}" loading="lazy" draggable="false" onerror="this.remove()"></div>
+      <div class="ph"><img src="${imgSrc(d.img,900)}" alt="${d.name}" loading="lazy" draggable="false" ${fallback(d.fb)}></div>
       <span class="check" aria-hidden="true">✓</span>
       <div class="pcard-top"><span class="tag">${d.tag}</span></div>
       <h3 class="display">${d.name}</h3>
@@ -697,11 +701,11 @@
     const hero = document.getElementById('top');
     const slides = [
       {short:"Baguio", tag:"Benguet · City of Pines", desc:"Pick your package, pick your date — we handle the van, the driver, the stay and the tour.",
-       rates:[["Day Tour","1,499"],["2D1N","2,299"],["3D2N","3,199"]], img:"photo-1506905925346-21bda4d32df4", baguio:true},
+       rates:[["Day Tour","1,499"],["2D1N","2,299"],["3D2N","3,199"]], img:"images/baguio.webp", fb:"photo-1506905925346-21bda4d32df4", baguio:true},
       ...destinations
     ];
     const bgs = document.getElementById('heroBgs'), dots = document.getElementById('hDots');
-    bgs.innerHTML = slides.map((d,i) => `<div class="bg ph${i?'':' on'}"><img src="${unsplash(d.img,2000)}" alt="" ${i?'loading="lazy"':''} draggable="false" onerror="this.remove()"></div>`).join('');
+    bgs.innerHTML = slides.map((d,i) => `<div class="bg ph${i?'':' on'}"><img src="${imgSrc(d.img,2000)}" alt="" ${i?'loading="lazy"':''} draggable="false" ${fallback(d.fb)}></div>`).join('');
     dots.innerHTML = slides.map((d,i) => `<button aria-label="Show ${d.short}" aria-current="${i===0}"></button>`).join('');
     const layers = [...bgs.children], dotBtns = [...dots.children];
     const title = document.getElementById('heroTitle'), tag = document.getElementById('heroTag'),
