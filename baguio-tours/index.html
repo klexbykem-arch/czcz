@@ -58,13 +58,27 @@
   /* ---------- Hero ---------- */
   .hero-frame{padding:14px;background:var(--white)}
   .hero{position:relative;min-height:max(640px,92vh);border-radius:4px;overflow:hidden;color:var(--white);display:flex;flex-direction:column;justify-content:flex-end}
-  .hero .bg{position:absolute;inset:0;filter:grayscale(1) contrast(1.05) brightness(.72)}
+  .hero .bg{position:absolute;inset:0;filter:grayscale(1) contrast(1.05) brightness(.72);opacity:0;transform:scale(1.06);transition:opacity 1s ease, transform 6s ease}
+  .hero .bg.on{opacity:1;transform:scale(1)}
+  .hero{touch-action:pan-y;user-select:none}
+  .hero .swap{transition:opacity .35s ease, transform .35s ease}
+  .hero.changing .swap{opacity:0;transform:translateY(14px)}
+  .hero-ctrl{display:flex;align-items:center;justify-content:center;gap:18px;margin:18px 0 auto;font-size:13px;letter-spacing:.1em}
+  .hero-ctrl .circle{width:48px;height:48px;border-color:rgba(255,255,255,.7);font-size:18px}
+  .hero-ctrl .circle:hover{background:var(--white);color:var(--black)}
+  .dots{display:flex;gap:8px}
+  .dots button{width:9px;height:9px;border-radius:50%;border:1px solid var(--white);background:transparent;cursor:pointer;padding:0;transition:width .3s, background .3s}
+  .dots button[aria-current="true"]{background:var(--white);width:28px;border-radius:6px}
+  .hero-tag{display:inline-block;border:1px solid rgba(255,255,255,.7);border-radius:999px;padding:5px 12px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+  .hero-prices{list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:24px}
+  .hero-prices li{font-size:13px;opacity:.9}
+  .hero-prices b{font-family:var(--display);font-weight:400;font-size:26px;margin-left:6px;letter-spacing:.02em}
   .hero .bg img{width:100%;height:100%;object-fit:cover}
   .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 55%,rgba(0,0,0,.6) 100%)}
   .hero > *{position:relative;z-index:2}
   .hero > header{position:absolute;z-index:20}
-  .hero > .bg{position:absolute;z-index:0}
-  .hero h1{font-size:calc((clamp(84px,17.5vw,300px)) * var(--fs));text-align:center;padding:0 12px;margin-bottom:auto;margin-top:clamp(150px,20vh,210px)}
+  .hero > #heroBgs{position:absolute;inset:0;z-index:0}
+  .hero h1{--len:15;font-size:calc((clamp(64px,min(17.5vw,calc(262vw / var(--len))),300px)) * var(--fs));text-align:center;padding:0 12px;margin-top:clamp(150px,20vh,210px)}
   .hero-bottom{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:32px;padding:0 var(--pad) 0}
   .hero-left{font-size:calc((13px) * var(--fs));max-width:250px;padding-bottom:36px;opacity:.92}
   .hero-left p+p{margin-top:12px}
@@ -228,6 +242,7 @@
     .svc-grid{grid-template-columns:1fr;gap:40px}
     .row2{grid-template-columns:1fr}
     .hero-frame{padding:8px}
+    .hero h1{font-size:calc(22vw * var(--fs));margin-top:150px}
     .hero-cta .btn{min-width:0;width:100%}
     .head-right .pill{display:none}
     .excl{margin-top:80px}
@@ -288,9 +303,14 @@
       </div>
     </header>
 
-    <div class="bg ph"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=70" alt="Misty mountain ranges at sunrise" onerror="this.remove()"></div>
+    <div id="heroBgs"></div>
 
-    <h1 class="display">Discover Baguio</h1>
+    <h1 class="display swap" id="heroTitle">Discover Baguio</h1>
+    <div class="hero-ctrl notranslate" aria-label="Hero slides">
+      <button class="circle" id="hPrev" aria-label="Previous destination">←</button>
+      <div class="dots" id="hDots"></div>
+      <button class="circle" id="hNext" aria-label="Next destination">→</button>
+    </div>
 
     <div class="hero-bottom">
       <div class="hero-left">
@@ -298,9 +318,12 @@
         <p>Open for joiners and exclusive tours. Family, barkada and solo travelers welcome.</p>
       </div>
       <div class="hero-right">
-        <p class="lead">Pick your package, pick your date — we handle the van, the driver, the stay and the tour.</p>
-        <p class="small">Day Tour, 2D1N or 3D2N. One pick-up point, a coordinator on every trip, and a flexible itinerary built around your group.</p>
-        <div class="hero-cta"><a href="#packages" class="btn">Select a tour <span class="arrow">→</span></a></div>
+        <div class="swap">
+          <span class="hero-tag" id="heroTag">Benguet · City of Pines</span>
+          <p class="lead" id="heroLead">Pick your package, pick your date — we handle the van, the driver, the stay and the tour.</p>
+          <ul class="hero-prices" id="heroPrices"></ul>
+        </div>
+        <div class="hero-cta"><a href="#packages" class="btn" id="heroCta">Select a tour <span class="arrow">→</span></a></div>
       </div>
     </div>
   </section>
@@ -558,14 +581,14 @@
 <script>
   // ---- Data (edit prices/destinations here) ----
   const destinations = [
-    {name:"Ilocos Tri City", tag:"Ilocos Norte", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Laoag, Batac and Paoay — sand dunes, heritage churches and windmills.", img:"photo-1507525428034-b723cf961d3e"},
-    {name:"Northern Blossom + Baguio", tag:"Atok, Benguet", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Highland flower farms paired with the best of Baguio.", img:"photo-1500530855697-b586d89ba3ee"},
-    {name:"Vigan + Baguio", tag:"Ilocos Sur", rates:[["3D2N","3,599"]], desc:"Cobblestone Calle Crisologo and the City of Pines in one trip.", img:"photo-1488646953014-85cb44e25828"},
-    {name:"La Union", tag:"San Juan, LU", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Surf town vibes, sunsets and beach cafés.", img:"photo-1519046904884-53103b34b206"},
-    {name:"Sagada + Banaue + Baguio", tag:"Cordillera", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Rice terraces, sea of clouds and mountain caves.", img:"photo-1506905925346-21bda4d32df4"},
-    {name:"Buscalan", tag:"Kalinga", rates:[["2D1N","3,899"],["Buscalan + Sagada 3D2N","4,999"]], desc:"Home of Apo Whang-Od and traditional Kalinga tattoos.", img:"photo-1464822759023-fed622ff2c3b"},
-    {name:"Baler", tag:"Aurora", rates:[["3D2N","3,299"],["2D1N","2,499"]], desc:"Surf beaches, Dicasalarin Cove and the Millennium Tree.", img:"photo-1476514525535-07fb3b4ae5f1"},
-    {name:"Caramoan + Albay", tag:"Bicol", rates:[["3D2N","5,499"]], desc:"Island hopping in Caramoan and the view of Mayon Volcano.", img:"photo-1501785888041-af3ef285b470"},
+    {name:"Ilocos Tri City", short:"Ilocos", tag:"Ilocos Norte", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Laoag, Batac and Paoay — sand dunes, heritage churches and windmills.", img:"photo-1507525428034-b723cf961d3e"},
+    {name:"Northern Blossom + Baguio", short:"Atok", tag:"Atok, Benguet", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Highland flower farms paired with the best of Baguio.", img:"photo-1500530855697-b586d89ba3ee"},
+    {name:"Vigan + Baguio", short:"Vigan", tag:"Ilocos Sur", rates:[["3D2N","3,599"]], desc:"Cobblestone Calle Crisologo and the City of Pines in one trip.", img:"photo-1488646953014-85cb44e25828"},
+    {name:"La Union", short:"La Union", tag:"San Juan, LU", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Surf town vibes, sunsets and beach cafés.", img:"photo-1519046904884-53103b34b206"},
+    {name:"Sagada + Banaue + Baguio", short:"Sagada", tag:"Cordillera", rates:[["3D2N","3,499"],["2D1N","2,599"]], desc:"Rice terraces, sea of clouds and mountain caves.", img:"photo-1506905925346-21bda4d32df4"},
+    {name:"Buscalan", short:"Buscalan", tag:"Kalinga", rates:[["2D1N","3,899"],["Buscalan + Sagada 3D2N","4,999"]], desc:"Home of Apo Whang-Od and traditional Kalinga tattoos.", img:"photo-1464822759023-fed622ff2c3b"},
+    {name:"Baler", short:"Baler", tag:"Aurora", rates:[["3D2N","3,299"],["2D1N","2,499"]], desc:"Surf beaches, Dicasalarin Cove and the Millennium Tree.", img:"photo-1476514525535-07fb3b4ae5f1"},
+    {name:"Caramoan + Albay", short:"Caramoan", tag:"Bicol", rates:[["3D2N","5,499"]], desc:"Island hopping in Caramoan and the view of Mayon Volcano.", img:"photo-1501785888041-af3ef285b470"},
   ];
   const places = [
     ["Lion's Head"],["Baguio Cathedral"],["Botanical Garden"],["Wright Park"],["The Mansion"],["Mines View"],
@@ -614,15 +637,19 @@
 
   // select a tour
   const bookSel = document.getElementById('bookSelected'), askDate = document.getElementById('askDate');
-  track.addEventListener('click', e => {
-    const b = e.target.closest('[data-select]'); if(!b) return;
+  function selectTour(name, toggle){
+    const b = track.querySelector(`[data-select="${name}"]`); if(!b) return;
     const card = b.closest('.pcard'), already = card.classList.contains('selected');
     cards.forEach(c => { c.classList.remove('selected'); c.querySelector('.select-btn').firstChild.textContent = 'Select this tour '; });
-    if(already){ bookSel.hidden = true; askDate.hidden = false; return; }
+    if(already && toggle){ bookSel.hidden = true; askDate.hidden = false; return; }
     card.classList.add('selected'); b.firstChild.textContent = 'Selected ';
-    document.getElementById('selName').textContent = b.dataset.select;
+    document.getElementById('selName').textContent = name;
     bookSel.hidden = false; askDate.hidden = true;
-    document.getElementById('fPkg').value = b.dataset.select;
+    document.getElementById('fPkg').value = name;
+    goTo(cards.indexOf(card));
+  }
+  track.addEventListener('click', e => {
+    const b = e.target.closest('[data-select]'); if(b) selectTour(b.dataset.select, true);
   });
 
   // ---- Places list ----
@@ -664,6 +691,63 @@
 
   document.getElementById('yr').textContent = new Date().getFullYear();
 
+
+  // ---- Hero slider: Baguio + popular destinations (swipe, drag, arrows, dots, autoplay) ----
+  (function(){
+    const hero = document.getElementById('top');
+    const slides = [
+      {short:"Baguio", tag:"Benguet · City of Pines", desc:"Pick your package, pick your date — we handle the van, the driver, the stay and the tour.",
+       rates:[["Day Tour","1,499"],["2D1N","2,299"],["3D2N","3,199"]], img:"photo-1506905925346-21bda4d32df4", baguio:true},
+      ...destinations
+    ];
+    const bgs = document.getElementById('heroBgs'), dots = document.getElementById('hDots');
+    bgs.innerHTML = slides.map((d,i) => `<div class="bg ph${i?'':' on'}"><img src="${unsplash(d.img,2000)}" alt="" ${i?'loading="lazy"':''} draggable="false" onerror="this.remove()"></div>`).join('');
+    dots.innerHTML = slides.map((d,i) => `<button aria-label="Show ${d.short}" aria-current="${i===0}"></button>`).join('');
+    const layers = [...bgs.children], dotBtns = [...dots.children];
+    const title = document.getElementById('heroTitle'), tag = document.getElementById('heroTag'),
+          lead = document.getElementById('heroLead'), prices = document.getElementById('heroPrices'), cta = document.getElementById('heroCta');
+    let cur = 0, timer = null;
+
+    function fill(d){
+      const t = 'Discover ' + d.short;
+      title.textContent = t; title.style.setProperty('--len', Math.max(15, t.length));
+      tag.textContent = d.tag; lead.textContent = d.desc;
+      prices.innerHTML = d.rates.map(r => `<li>${r[0]}<b>₱${r[1]}</b></li>`).join('');
+      cta.firstChild.textContent = d.baguio ? 'See Baguio packages ' : 'Book this tour ';
+      cta.setAttribute('href', d.baguio ? '#packages' : '#contact');
+      cta.dataset.tour = d.baguio ? '' : d.name;
+    }
+    function show(i){
+      i = (i + slides.length) % slides.length; if(i === cur) return;
+      layers[cur].classList.remove('on'); layers[i].classList.add('on');
+      dotBtns.forEach((b,k) => b.setAttribute('aria-current', k===i));
+      cur = i; hero.classList.add('changing');
+      setTimeout(() => { fill(slides[cur]); hero.classList.remove('changing'); }, 350);
+    }
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const play = () => { if(reduce) return; clearInterval(timer); timer = setInterval(() => show(cur+1), 7000); };
+    const user = fn => { fn(); play(); };
+    document.getElementById('hPrev').onclick = () => user(() => show(cur-1));
+    document.getElementById('hNext').onclick = () => user(() => show(cur+1));
+    dotBtns.forEach((b,i) => b.onclick = () => user(() => show(i)));
+    cta.addEventListener('click', () => { if(cta.dataset.tour) selectTour(cta.dataset.tour, false); });
+
+    // swipe (touch) and drag (mouse)
+    let sx=null, sy=null;
+    hero.addEventListener('pointerdown', e => { if(e.target.closest('a,button,header')) return; sx=e.clientX; sy=e.clientY; });
+    window.addEventListener('pointerup', e => {
+      if(sx===null) return; const dx=e.clientX-sx, dy=e.clientY-sy; sx=null;
+      if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)) user(() => show(cur + (dx<0?1:-1)));
+    });
+    hero.addEventListener('pointercancel', () => sx=null);
+    hero.addEventListener('mouseenter', () => clearInterval(timer));
+    hero.addEventListener('mouseleave', play);
+    document.addEventListener('keydown', e => {
+      if(hero.getBoundingClientRect().bottom < 0 || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+      if(e.key==='ArrowRight') user(() => show(cur+1)); if(e.key==='ArrowLeft') user(() => show(cur-1));
+    });
+    fill(slides[0]); play();
+  })();
   // ---- Accessibility tool: text size + translator ----
   (function(){
     const store = { get(k){ try{return localStorage.getItem(k);}catch(e){return null;} }, set(k,v){ try{localStorage.setItem(k,v);}catch(e){} } };
