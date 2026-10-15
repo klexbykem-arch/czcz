@@ -98,6 +98,7 @@
   .sec{padding:120px var(--pad)}
   .sec.black{background:var(--black);color:var(--white)}
   .sec.off{background:var(--off)}
+  .sec.black + .sec.black{border-top:1px solid rgba(255,255,255,.18)}
   .kicker{font-size:calc((12px) * var(--fs));letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px}
   .kicker::before{content:"";width:28px;height:1px;background:currentColor}
   .h2{font-size:calc((clamp(64px,8.5vw,128px)) * var(--fs))}
@@ -361,6 +362,39 @@
   </div>
 </section>
 
+<!-- ================= OUR TOURS FOR ================= -->
+<section class="sec" id="tours">
+  <div class="tours-head reveal">
+    <h2 class="display h2">Our tours for</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="joiners" role="tab">Joiners</button>
+      <button class="tab" data-tab="exclusive" role="tab">Exclusive tour</button>
+    </div>
+  </div>
+
+  <div class="tab-panel active" data-panel="joiners">
+    <div class="who-track-wrap"><div class="who-track">
+      <div class="who"><div class="ph"><img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=700&q=70" alt="Solo traveler" onerror="this.remove()"><span class="num">01</span></div>
+        <h4>Solo joiners <span class="ne">↗</span></h4><p class="desc">Travelling alone? Join a group trip, share the van and the stay, and make new friends along the way.</p></div>
+      <div class="who active"><div class="ph"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=700&q=70" alt="Group of friends" onerror="this.remove()"><span class="num">02</span></div>
+        <h4>Barkada <span class="ne">↗</span></h4><p class="desc">Strawberry picking, night market food trips and photo stops at the Colored Houses — made for friends.</p></div>
+      <div class="who"><div class="ph"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=700&q=70" alt="Family by a lake" onerror="this.remove()"><span class="num">03</span></div>
+        <h4>Families <span class="ne">↗</span></h4><p class="desc">Safe, coordinated trips for all ages. Boat rides at Burnham Park, horseback at Wright Park and cool mountain air.</p></div>
+    </div></div>
+  </div>
+
+  <div class="tab-panel" data-panel="exclusive">
+    <div class="who-track-wrap"><div class="who-track">
+      <div class="who active"><div class="ph"><img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=700&q=70" alt="Friends on an exclusive trip" onerror="this.remove()"><span class="num">01</span></div>
+        <h4>Exclusive group <span class="ne">↗</span></h4><p class="desc">The whole van is yours. Flexible date, one pick-up location, and your own pace.</p></div>
+      <div class="who"><div class="ph"><img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=700&q=70" alt="Planning a trip" onerror="this.remove()"><span class="num">02</span></div>
+        <h4>Family outing <span class="ne">↗</span></h4><p class="desc">Plan a reunion or family vacation on your own schedule — we adjust the itinerary to your group.</p></div>
+      <div class="who"><div class="ph"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=700&q=70" alt="Mountain landscape" onerror="this.remove()"><span class="num">03</span></div>
+        <h4>PMA visit <span class="ne">↗</span></h4><p class="desc">Philippine Military Academy is available on 3D2N exclusive tours only.</p></div>
+    </div></div>
+  </div>
+</section>
+
 <!-- ================= INCLUSIONS (services layout) ================= -->
 <section class="sec off" id="inclusions">
   <div class="split">
@@ -408,39 +442,6 @@
         </tbody>
       </table>
     </div>
-  </div>
-</section>
-
-<!-- ================= OUR TOURS FOR ================= -->
-<section class="sec" id="tours">
-  <div class="tours-head reveal">
-    <h2 class="display h2">Our tours for</h2>
-    <div class="tabs" role="tablist">
-      <button class="tab active" data-tab="joiners" role="tab">Joiners</button>
-      <button class="tab" data-tab="exclusive" role="tab">Exclusive tour</button>
-    </div>
-  </div>
-
-  <div class="tab-panel active" data-panel="joiners">
-    <div class="who-track-wrap"><div class="who-track">
-      <div class="who"><div class="ph"><img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=700&q=70" alt="Solo traveler" onerror="this.remove()"><span class="num">01</span></div>
-        <h4>Solo joiners <span class="ne">↗</span></h4><p class="desc">Travelling alone? Join a group trip, share the van and the stay, and make new friends along the way.</p></div>
-      <div class="who active"><div class="ph"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=700&q=70" alt="Group of friends" onerror="this.remove()"><span class="num">02</span></div>
-        <h4>Barkada <span class="ne">↗</span></h4><p class="desc">Strawberry picking, night market food trips and photo stops at the Colored Houses — made for friends.</p></div>
-      <div class="who"><div class="ph"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=700&q=70" alt="Family by a lake" onerror="this.remove()"><span class="num">03</span></div>
-        <h4>Families <span class="ne">↗</span></h4><p class="desc">Safe, coordinated trips for all ages. Boat rides at Burnham Park, horseback at Wright Park and cool mountain air.</p></div>
-    </div></div>
-  </div>
-
-  <div class="tab-panel" data-panel="exclusive">
-    <div class="who-track-wrap"><div class="who-track">
-      <div class="who active"><div class="ph"><img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=700&q=70" alt="Friends on an exclusive trip" onerror="this.remove()"><span class="num">01</span></div>
-        <h4>Exclusive group <span class="ne">↗</span></h4><p class="desc">The whole van is yours. Flexible date, one pick-up location, and your own pace.</p></div>
-      <div class="who"><div class="ph"><img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=700&q=70" alt="Planning a trip" onerror="this.remove()"><span class="num">02</span></div>
-        <h4>Family outing <span class="ne">↗</span></h4><p class="desc">Plan a reunion or family vacation on your own schedule — we adjust the itinerary to your group.</p></div>
-      <div class="who"><div class="ph"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=700&q=70" alt="Mountain landscape" onerror="this.remove()"><span class="num">03</span></div>
-        <h4>PMA visit <span class="ne">↗</span></h4><p class="desc">Philippine Military Academy is available on 3D2N exclusive tours only.</p></div>
-    </div></div>
   </div>
 </section>
 
