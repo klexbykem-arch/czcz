@@ -58,7 +58,7 @@
   /* ---------- Hero ---------- */
   .hero-frame{padding:14px;background:var(--white)}
   .hero{position:relative;min-height:max(640px,92vh);border-radius:4px;overflow:hidden;color:var(--white);display:flex;flex-direction:column;justify-content:flex-end}
-  .hero .bg{position:absolute;inset:0;filter:grayscale(1) contrast(1.05) brightness(.72);opacity:0;transform:scale(1.06);transition:opacity 1s ease, transform 6s ease}
+  .hero .bg{position:absolute;inset:0;filter:brightness(.85) saturate(1.08);opacity:0;transform:scale(1.06);transition:opacity 1s ease, transform 6s ease}
   .hero .bg.on{opacity:1;transform:scale(1)}
   .hero{touch-action:pan-y;user-select:none}
   .hero .swap{transition:opacity .35s ease, transform .35s ease}
@@ -125,7 +125,6 @@
   .select-btn{margin-top:auto;align-self:flex-start;display:inline-flex;gap:10px;align-items:center;background:var(--white);color:var(--black);border:0;font:inherit;font-weight:600;font-size:calc((14px) * var(--fs));padding:12px 18px;border-radius:0 14px 0 14px;cursor:pointer;transition:background .2s,color .2s}
   .select-btn:hover{background:#e6e6e6}
   .pcard.selected{outline:3px solid var(--black);outline-offset:-3px}
-  .pcard.selected .ph{filter:grayscale(0) brightness(.55)}
   .pcard.selected .select-btn{background:var(--black);color:var(--white);box-shadow:0 0 0 1px var(--white)}
   .pcard .check{position:absolute;top:22px;right:22px;width:34px;height:34px;border-radius:50%;background:var(--white);color:var(--black);display:none;place-items:center;font-weight:700}
   .pcard.selected .check{display:grid}
@@ -134,9 +133,10 @@
   .track-wrap.scroll{overflow-x:auto;scrollbar-width:thin;padding-bottom:8px}
   .track{display:flex;gap:16px;transition:transform .6s cubic-bezier(.65,0,.25,1)}
   .pcard{flex:0 0 clamp(270px,30vw,380px);height:clamp(460px,52vw,560px);position:relative;overflow:hidden;color:var(--white);display:flex;flex-direction:column;padding:22px}
-  .pcard .ph{position:absolute;inset:0;filter:grayscale(1) brightness(.6);transition:transform .8s, filter .6s}
+  .pcard .ph{position:absolute;inset:0;transition:transform .8s}
+  .pcard .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.25) 45%,rgba(0,0,0,.7) 100%)}
   .pcard .ph img{width:100%;height:100%;object-fit:cover}
-  .pcard:hover .ph{transform:scale(1.05);filter:grayscale(.2) brightness(.55)}
+  .pcard:hover .ph{transform:scale(1.05)}
   .pcard > *:not(.ph){position:relative}
   .tag{display:inline-block;border:1px solid rgba(255,255,255,.7);border-radius:999px;font-size:calc((11px) * var(--fs));padding:5px 12px;letter-spacing:.08em;text-transform:uppercase}
   .pcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
@@ -154,7 +154,7 @@
   .svc .ne{position:absolute;right:0;top:22px;font-size:calc((26px) * var(--fs));line-height:1}
   .svc p{font-size:calc((14px) * var(--fs));max-width:300px;color:#333}
   .svc.feature h3{color:var(--gray)}
-  .svc .ph{height:170px;margin:14px 0;filter:grayscale(1)}
+  .svc .ph{height:170px;margin:14px 0}
   .svc .ph img{width:100%;height:100%;object-fit:cover}
 
   .excl{display:grid;grid-template-columns:minmax(280px,.8fr) 1.6fr;gap:clamp(32px,5vw,80px);margin-top:120px}
@@ -173,14 +173,13 @@
   .who-track-wrap{overflow:hidden;margin-right:calc(var(--pad)*-1)}
   .who-track{display:flex;gap:16px;transition:transform .6s cubic-bezier(.65,0,.25,1)}
   .who{flex:0 0 clamp(260px,24vw,330px);cursor:pointer}
-  .who .ph{height:clamp(220px,20vw,260px);position:relative;filter:grayscale(1);transition:filter .4s}
+  .who .ph{height:clamp(220px,20vw,260px);position:relative}
   .who .ph img{width:100%;height:100%;object-fit:cover}
   .who .num{position:absolute;top:14px;left:16px;font-family:var(--display);font-size:calc((46px) * var(--fs));color:var(--white);text-shadow:0 1px 10px rgba(0,0,0,.4)}
   .who h4{font-family:var(--display);font-weight:400;font-size:calc((40px) * var(--fs));text-transform:uppercase;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
   .who h4 .ne{font-family:var(--body);font-size:calc((22px) * var(--fs));opacity:0}
   .who .desc{font-size:calc((14px) * var(--fs));max-height:0;overflow:hidden;transition:max-height .45s, padding .45s;color:var(--white)}
   .who.active{background:var(--black);color:var(--white);padding:8px}
-  .who.active .ph{filter:grayscale(0)}
   .who.active h4{padding:0 6px}
   .who.active h4 .ne{opacity:1}
   .who.active .desc{max-height:240px;padding:4px 6px 10px}
