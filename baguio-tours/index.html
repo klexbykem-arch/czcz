@@ -380,6 +380,14 @@
   .stat:first-child{border-left:0}
   .stat h3{font-size:calc((clamp(44px,5vw,64px)) * var(--fs));margin-bottom:10px}
   .stat .stars{font-family:var(--body);font-size:.42em;letter-spacing:.08em;vertical-align:middle;margin-left:6px}
+  .count{display:inline-block;font-variant-numeric:tabular-nums;min-width:1ch}
+  .stars i{font-style:normal;display:inline-block;transition:opacity .3s, transform .3s}
+  .stats.ready .stars i{opacity:0;transform:scale(.4)}
+  .stats.ready.counted .stars i{opacity:1;transform:none}
+  .stats.counted .stars i:nth-child(2){transition-delay:.12s}
+  .stats.counted .stars i:nth-child(3){transition-delay:.24s}
+  .stats.counted .stars i:nth-child(4){transition-delay:.36s}
+  .stats.counted .stars i:nth-child(5){transition-delay:.48s}
   .stat p{font-size:calc((14px) * var(--fs));color:#444;max-width:260px}
 
   /* ---------- Section heads ---------- */
@@ -633,9 +641,9 @@
 </div>
 
 <div class="stats">
-  <div class="stat reveal"><h3 class="display">200+ Booked</h3><p>Travelers who have already joined our van tours up north.</p></div>
-  <div class="stat reveal"><h3 class="display">5-Star <span class="stars" aria-label="5 out of 5 stars">★★★★★</span></h3><p>Rated 5 stars by the families, barkada and solo joiners we've toured.</p></div>
-  <div class="stat reveal"><h3 class="display">9 Routes</h3><p>Baguio plus Ilocos, La Union, Vigan, Sagada, Buscalan, Baler and Caramoan.</p></div>
+  <div class="stat reveal"><h3 class="display"><span class="count" data-to="200">200</span>+ Booked</h3><p>Travelers who have already joined our van tours up north.</p></div>
+  <div class="stat reveal"><h3 class="display"><span class="count" data-to="5">5</span>-Star <span class="stars" aria-label="5 out of 5 stars"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span></h3><p>Rated 5 stars by the families, barkada and solo joiners we've toured.</p></div>
+  <div class="stat reveal"><h3 class="display"><span class="count" data-to="9">9</span> Routes</h3><p>Baguio plus Ilocos, La Union, Vigan, Sagada, Buscalan, Baler and Caramoan.</p></div>
 </div>
 
 <!-- ================= BAGUIO PACKAGES ================= -->
@@ -1091,6 +1099,26 @@
       document.getElementById('contact').scrollIntoView({behavior:'smooth'});
       setTimeout(() => document.getElementById('fName').focus({preventScroll:true}), 600);
     });
+  })();
+
+  // ---- Running numbers in the stats row (count up when scrolled into view) ----
+  (function(){
+    const box = document.querySelector('.stats');
+    if(!box || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const nums = [...box.querySelectorAll('.count')];
+    box.classList.add('ready');
+    nums.forEach(n => n.textContent = '0');
+    const run = () => {
+      const t0 = performance.now(), dur = 1600;
+      const tick = now => {
+        const k = Math.min(1, (now - t0) / dur), ease = 1 - Math.pow(1 - k, 3);
+        nums.forEach(n => n.textContent = Math.round(+n.dataset.to * ease));
+        if(k < 1) requestAnimationFrame(tick); else box.classList.add('counted');
+      };
+      requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver(es => { if(es[0].isIntersecting){ io.disconnect(); run(); } }, {threshold:.4});
+    io.observe(box);
   })();
   // ---- Accessibility tool: text size + translator ----
   (function(){
