@@ -437,6 +437,13 @@
   .glow{position:absolute;inset:16px 14px -4px;z-index:-1;background:center/cover no-repeat;filter:blur(16px) saturate(1.8) brightness(1.05);opacity:.8;pointer-events:none;transition:opacity .4s, transform .4s}
   .pcard:hover > .glow,.who:hover .glow,.svc:hover .glow{opacity:1;transform:scale(1.04)}
   .glow-host{isolation:isolate}
+  /* rounded photo boxes */
+  .pcard,.pcard .ph{border-radius:20px}
+  .pcard .ph::after{border-radius:inherit}
+  .who .ph,.svc .ph{border-radius:16px}
+  .who .ph img,.svc .ph img{border-radius:inherit}
+  .who.active{border-radius:20px}
+  .glow{border-radius:24px}
   .pcard > .glow.glow{position:absolute}
   .svc .ph{position:relative}
   .pcard > *:not(.ph){position:relative}
