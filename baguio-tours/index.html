@@ -916,7 +916,8 @@
   ];
   const unsplash = (id,w) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`;
   // local photos live in images/; anything else is a stock-photo placeholder id
-  const imgSrc = (img,w) => img.startsWith('images/') ? img : unsplash(img,w);
+  const isLocal = img => /^(images\/|data:)/.test(img);
+  const imgSrc = (img,w) => isLocal(img) ? img : unsplash(img,w);
   // if a local photo is missing, fall back to a stock photo, then to the dark placeholder
   const fallback = id => `onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb='';}else{this.remove()}" data-fb="${id?unsplash(id,1600):''}"`;
 
@@ -1025,7 +1026,7 @@
     const bgs = document.getElementById('heroBgs'), dots = document.getElementById('hDots');
     bgs.innerHTML = slides.map((d,i) => `<div class="bg ph${i?'':' on'}"><img src="${imgSrc(d.img,2000)}" alt="${d.short} tour by Bulakenyo Travel and Tours" ${i?'loading="lazy" decoding="async"':'fetchpriority="high"'} draggable="false" ${fallback(d.fb)}></div>`).join('');
     const glow = document.getElementById('heroGlow');
-    glow.innerHTML = slides.map((d,i) => `<span class="${i?'':'on'}" data-src="${d.img.startsWith('images/')?d.img:''}"></span>`).join('');
+    glow.innerHTML = slides.map((d,i) => `<span class="${i?'':'on'}" data-src="${isLocal(d.img)?d.img:''}"></span>`).join('');
     const glows = [...glow.children];
     const lightGlow = i => { const g = glows[i]; if(g.dataset.src && !g.style.backgroundImage) g.style.backgroundImage = `url(${g.dataset.src})`; };
     lightGlow(0);
